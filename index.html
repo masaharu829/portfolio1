@@ -106,12 +106,6 @@
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             opacity: 0; animation: fadeInUp 1s forwards 0.2s;
         }
-        /* タイピング風カーソル */
-        .typing-effect::after {
-            content: '|'; animation: blink 1s infinite;
-        }
-        @keyframes blink { 50% { opacity: 0; } }
-
         .hero-sub {
             font-family: 'Montserrat', sans-serif; font-size: 1.4rem; font-weight: 700;
             color: var(--text-sub); letter-spacing: 0.15em;
@@ -163,7 +157,7 @@
         .cl { background: linear-gradient(90deg, #8b5cf6, #a78bfa); }
         .ht { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
 
-        /* --- 新設：Current Focus (今学んでいること) --- */
+        /* --- Current Focus --- */
         .focus-grid {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px; margin-top: 30px;
@@ -174,14 +168,23 @@
         }
         .focus-icon { font-size: 2rem; color: var(--accent-2); margin-bottom: 10px; }
 
-        /* --- 新設：Contact --- */
+        /* --- Contact Button & Notification --- */
         .contact-btn {
             display: inline-flex; align-items: center; gap: 10px;
             background: var(--text-main); color: white; padding: 15px 40px;
             border-radius: 50px; font-weight: bold; margin-top: 20px;
-            transition: 0.3s;
+            transition: 0.3s; cursor: pointer; border: none; font-size: 1rem;
         }
         .contact-btn:hover { transform: scale(1.05); opacity: 0.9; }
+
+        /* 通知トースト */
+        #notification {
+            visibility: hidden; min-width: 250px; background-color: #333; color: #fff;
+            text-align: center; border-radius: 50px; padding: 16px; position: fixed; z-index: 9999;
+            left: 50%; bottom: 30px; transform: translateX(-50%); font-size: 0.9rem;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2); opacity: 0; transition: opacity 0.5s, bottom 0.5s;
+        }
+        #notification.show { visibility: visible; opacity: 1; bottom: 50px; }
 
         /* --- アニメーション --- */
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
@@ -206,10 +209,12 @@
         <div class="flow-blob blob-2"></div>
     </div>
 
+    <div id="notification"><i class="fa-solid fa-check"></i> メールアドレスをコピーしました！</div>
+
     <header>
         <div class="container">
             <h1 class="hero-title">MASAHARU<br>SHIGAWA</h1>
-            <p class="hero-sub typing-effect">UNIVERSITY STUDENT / 1st YEAR</p>
+            <p class="hero-sub">UNIVERSITY STUDENT / 1st YEAR</p>
             <p style="margin-top:30px; font-size:1.1rem; opacity:0; animation:fadeInUp 1s forwards 0.8s;">
                 周囲を巻き込み、課題を解決するエンジニアへ。
             </p>
@@ -365,9 +370,10 @@
             <div class="fade-up">
                 <h2 style="font-size: 2.5rem; font-weight: 900; margin-bottom: 20px;">Let's Connect</h2>
                 <p>ポートフォリオをご覧いただきありがとうございます。</p>
-                <a href="mailto:example@email.com" class="contact-btn">
-                    <i class="fa-solid fa-envelope"></i> お問い合わせはこちら
-                </a>
+                
+                <button class="contact-btn" onclick="copyEmail()">
+                    <i class="fa-solid fa-envelope"></i> メールアドレスをコピー
+                </button>
             </div>
         </section>
 
@@ -378,15 +384,36 @@
     </footer>
 
     <script>
+        // メールアドレスをコピーする機能
+        function copyEmail() {
+            // ↓↓↓ ここにあなたの本当のメールアドレスを入れてください ↓↓↓
+            const myEmail = "masaharu.shigawa@example.com"; 
+
+            // コピー処理
+            navigator.clipboard.writeText(myEmail).then(function() {
+                // コピー成功時の通知表示
+                const notification = document.getElementById("notification");
+                notification.className = "show";
+                
+                // 3秒後に通知を消す
+                setTimeout(function(){ 
+                    notification.className = notification.className.replace("show", ""); 
+                }, 3000);
+                
+                // メールソフトも一応開く（不要なら下の行を削除）
+                window.location.href = "mailto:" + myEmail;
+            }, function(err) {
+                console.error('Could not copy text: ', err);
+            });
+        }
+
         // スクロールアニメーション & 進捗バー
         window.addEventListener('scroll', () => {
-            // 進捗バー
             const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
             const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
             const scrolled = (winScroll / height) * 100;
             document.getElementById("scroll-progress").style.width = scrolled + "%";
 
-            // フェードイン & バーのアニメーション
             const triggerBottom = window.innerHeight * 0.85;
             
             document.querySelectorAll('.fade-up').forEach(el => {
