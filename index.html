@@ -112,9 +112,31 @@
             opacity: 0; animation: fadeInUp 1s forwards 0.5s;
         }
 
-        /* --- プロフィール --- */
-        .profile-simple p {
-            font-size: 1.1rem; color: var(--text-sub); margin-bottom: 10px;
+        /* --- プロフィール（写真付きレイアウト） --- */
+        .profile-layout {
+            display: grid;
+            grid-template-columns: 300px 1fr; /* 左:写真、右:テキスト */
+            gap: 50px;
+            align-items: center;
+        }
+        .profile-image-box {
+            width: 100%;
+            aspect-ratio: 1 / 1; /* 正方形 */
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            border: 3px solid rgba(255, 255, 255, 0.3); /* ガラス風の枠 */
+            transform: rotate(-3deg); /* 少し傾けておしゃれに */
+            transition: transform 0.3s ease;
+        }
+        .profile-image-box:hover {
+            transform: rotate(0deg) scale(1.02); /* ホバーで元に戻る */
+        }
+        .profile-img {
+            width: 100%; height: 100%; object-fit: cover;
+        }
+        .profile-text-box p {
+            font-size: 1.05rem; color: var(--text-sub); margin-bottom: 15px; line-height: 1.8;
         }
 
         /* --- ガクチカ詳細 (メイン) --- */
@@ -197,6 +219,9 @@
             .hero-title { font-size: 3.5rem; }
             .glass-panel { padding: 30px; transform: none !important; }
             .result-highlight { flex-direction: column; text-align: center; }
+            /* スマホでのプロフィールレイアウト */
+            .profile-layout { grid-template-columns: 1fr; text-align: center; }
+            .profile-image-box { width: 220px; margin: 0 auto 30px; transform: rotate(0); }
         }
     </style>
 </head>
@@ -226,13 +251,28 @@
         <section id="profile">
             <h2 class="section-title fade-up">PROFILE</h2>
             <div class="glass-panel tilt-card fade-up">
-                <div class="panel-content profile-simple" style="text-align: center;">
-                    <h3 style="font-size:1.8rem; font-weight:bold; margin-bottom: 20px;">志川 雅治</h3>
-                    <p style="font-weight: bold; color: var(--accent-1);">日本大学 理工学部 / 学部1年</p>
-                    <p style="margin-top: 20px;">
-                        Web制作とプログラミングを学んでいます。<br>
-                        趣味はカフェ巡りで、居心地の良い空間やデザインに興味があります。
-                    </p>
+                <div class="panel-content">
+                    
+                    <div class="profile-layout">
+                        <div class="profile-image-box">
+                            <img src="https://placehold.co/400x400/2563eb/ffffff?text=Photo" alt="志川雅治のプロフィール写真" class="profile-img">
+                        </div>
+                        
+                        <div class="profile-text-box">
+                            <h3 style="font-size:1.8rem; font-weight:bold; margin-bottom: 15px;">志川 雅治</h3>
+                            <p style="font-weight: bold; color: var(--accent-1); margin-bottom: 20px;">日本大学 理工学部 / 学部1年</p>
+                            <p>
+                                現在、大学で情報工学の基礎を学びながら、独学でWeb制作のスキルを磨いています。
+                            </p>
+                            <p>
+                                技術力だけでなく、ビジネス視点を持ったエンジニアを目指しており、将来はチーム開発において潤滑油のような存在になりたいと考えています。
+                            </p>
+                            <p>
+                                趣味はカフェ巡り。居心地の良い空間設計や、ユーザー目線のUI/UXデザインに関心があります。
+                            </p>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </section>
@@ -386,21 +426,14 @@
     <script>
         // メールアドレスをコピーする機能
         function copyEmail() {
-            // ↓↓↓ ここにあなたの本当のメールアドレスを入れてください ↓↓↓
             const myEmail = "masaharu.shigawa@example.com"; 
 
-            // コピー処理
             navigator.clipboard.writeText(myEmail).then(function() {
-                // コピー成功時の通知表示
                 const notification = document.getElementById("notification");
                 notification.className = "show";
-                
-                // 3秒後に通知を消す
                 setTimeout(function(){ 
                     notification.className = notification.className.replace("show", ""); 
                 }, 3000);
-                
-                // メールソフトも一応開く（不要なら下の行を削除）
                 window.location.href = "mailto:" + myEmail;
             }, function(err) {
                 console.error('Could not copy text: ', err);
