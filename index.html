@@ -123,7 +123,7 @@
             width: 100%; aspect-ratio: 1 / 1; border-radius: 20px; overflow: hidden;
             box-shadow: var(--card-shadow); border: 3px solid rgba(255, 255, 255, 0.3);
             transform: rotate(-3deg); transition: transform 0.3s ease;
-            background: #e2e8f0; /* 画像読み込み中の背景色 */
+            background: #e2e8f0; 
         }
         .profile-image-box:hover { transform: rotate(0deg) scale(1.02); }
         .profile-img { width: 100%; height: 100%; object-fit: cover; }
@@ -157,7 +157,7 @@
             transform: rotate(45deg); animation: shine 3s infinite;
         }
 
-        /* --- スキルバー（新デザイン） --- */
+        /* --- スキルバー --- */
         .skill-group { margin-bottom: 25px; }
         .skill-header {
             display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 8px;
@@ -168,7 +168,6 @@
         .skill-percent {
             font-weight: bold; font-family: 'Montserrat', sans-serif;
         }
-        /* 一番高いスキルを強調 */
         .skill-percent.highlight { color: var(--accent-1); font-size: 1.2rem; }
 
         .bar-container {
@@ -254,20 +253,20 @@
                     
                     <div class="profile-layout">
                         <div class="profile-image-box">
-                            <img id="random-profile-img" src="https://placehold.co/400x400/e2e8f0/64748b?text=Loading..." alt="プロフィール写真" class="profile-img">
+                            <img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="明るい学習デスクのイメージ" class="profile-img">
                         </div>
                         
                         <div class="profile-text-box">
                             <h3 style="font-size:1.8rem; font-weight:bold; margin-bottom: 15px;">志川 雅治</h3>
                             <p style="font-weight: bold; color: var(--accent-1); margin-bottom: 20px;">日本大学 理工学部 / 学部1年</p>
                             <p>
-                                現在、大学で情報工学の基礎を学びながら、独学でWeb制作のスキルを磨いています。
+                                はじめまして。現在、情報工学を専攻し、プログラミングの基礎やコンピュータの仕組みについて学んでいます。
                             </p>
                             <p>
-                                技術力だけでなく、ビジネス視点を持ったエンジニアを目指しており、将来はチーム開発において潤滑油のような存在になりたいと考えています。
+                                「分からないことをそのままにしない」がモットーで、地道にコツコツと取り組むことが得意です。大学の課題だけでなく、Web制作などの自主学習にも力を入れています。
                             </p>
                             <p>
-                                趣味はカフェ巡り。居心地の良い空間設計や、ユーザー目線のUI/UXデザインに関心があります。
+                                将来は、確かな技術力を持ちつつ、周りの人と協力して良いモノ作りができるエンジニアになりたいと考えています。
                             </p>
                         </div>
                     </div>
@@ -333,9 +332,11 @@
                     <div class="skill-group">
                         <div class="skill-header">
                             <div class="skill-name"><i class="fa-solid fa-c" style="color:#8b5cf6;"></i> C Language</div>
-                            <div class="skill-percent highlight">95%</div> </div>
+                            <div class="skill-percent highlight">95%</div>
+                        </div>
                         <div class="bar-container">
-                            <div class="bar-fill fill-c" data-width="95%" style="width: 95%;"></div> </div>
+                            <div class="bar-fill fill-c" data-width="95%" style="width: 95%;"></div>
+                        </div>
                     </div>
 
                     <div class="skill-group">
@@ -400,28 +401,9 @@
     </footer>
 
     <script>
-        // プロフィール写真をランダムに設定する機能
-        function setRandomImage() {
-            const imgElement = document.getElementById('random-profile-img');
-            if (imgElement) {
-                // 乱数を生成してURLの末尾につけることで、毎回違う画像を読み込ませる
-                const randomId = Math.floor(Math.random() * 1000);
-                // Picsum Photosというフリー画像サービスを利用
-                const imageUrl = `https://picsum.photos/400/400?random=${randomId}`;
-                
-                // 画像の読み込みが完了したらふわっと表示させる処理
-                imgElement.style.opacity = 0; 
-                imgElement.onload = () => { imgElement.style.opacity = 1; };
-                imgElement.src = imageUrl;
-            }
-        }
-        // ページ読み込み時に実行
-        window.addEventListener('DOMContentLoaded', setRandomImage);
-
-
         // メールアドレスをコピーする機能
         function copyEmail() {
-            const myEmail = "masaharu.shigawa@example.com"; // ←あなたのメールアドレスに書き換えてください
+            const myEmail = "masaharu.shigawa@example.com"; 
             navigator.clipboard.writeText(myEmail).then(function() {
                 const notification = document.getElementById("notification");
                 notification.className = "show";
